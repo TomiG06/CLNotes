@@ -1,0 +1,6 @@
+#!/bin/bash
+
+PTR=$(pwd)
+cd /home/$(whoami)/CLNotes/src/
+./clnotesExec "$@"
+cd $PTR
