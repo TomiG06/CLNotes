@@ -15,7 +15,7 @@ void displayNotes(int status, note* arr) {
     '-c': create a note
     '-r': read notes
     '-u': update status
-    '-d': delete note (comming soon)
+    '-d': delete note
 
 */
 
@@ -43,7 +43,9 @@ int main(int argc, char* argv[]) {
         if(us) printf("Note %s updated successfully\n", argv[2]);
         else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], lines());
     } else if(!strcmp(argv[1], "-d") || !strcmp(argv[1], "-D")) {
-        //Coming Soon
+        char ds = deleteNote(atoi(argv[2])-1);
+        if(ds) printf("Note %s deleted successfully\n", argv[2]);
+        else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], lines());
     } else printf("Uknown command '%s'\n", argv[1]);
     return 0;
 }

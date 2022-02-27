@@ -30,23 +30,20 @@ note extractNote(char* line) {
 }
 
 note* instances() {
-    FILE *f = fopen(DB, "r");
     uint16_t ln = lines();
     if(ln == 0) {
         printf("Database is empty\nAdd stuff with 'clnotes -c \"your message\"'\n");
         exit(0);
     }
-    char* content = (char*) malloc(ln * 64);
+    char* content = readDB();
     char* lineBuff = (char*) malloc(60);
     uint16_t lineCount = 0;
     uint16_t noteCount = 0;
     uint16_t x = 0;
     char c;
     note resm;
-    while((c = getc(f)) != EOF) content[x++] = c;
-    fclose(f);
     note* ret = (note*)malloc(ln *sizeof(note));
-    for(x = 0; x<strlen(content); ++x) {
+    for(x; x<strlen(content); ++x) {
         c = content[x];
         if(c == '\n') {
             lineCount = 0;
@@ -82,6 +79,20 @@ char addNote(char* content) {
 uint8_t updateNote(uint16_t line) {
     if(line < 1 || line > lines()) return 0;
     update(line);
+    return 1;
+}
+
+char deleteNote(uint16_t line) {
+    uint16_t ln = lines();
+    if(line < 0 || line > ln-1) return 0;
+    note* all = instances();
+    for(line; line<ln; line++) all[line] = all[line+1];
+    --ln;
+    FILE *f = fopen(DB, "w");
+    for(uint16_t x = 0; x<ln; ++x) fprintf(f, "%s,%d\n", all[x].content, all[x].checked);
+    fclose(f);
+    free(all);
+    addLines(-1);
     return 1;
 }
 
