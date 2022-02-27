@@ -5,7 +5,7 @@
 
 typedef struct noteStruct {
     char content[60];
-    unsigned checked:1;
+    uint8_t checked;
 } note;
 
 char checkInstance(note inst, char status) {
