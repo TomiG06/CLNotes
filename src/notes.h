@@ -8,11 +8,6 @@ typedef struct noteStruct {
     uint8_t checked;
 } note;
 
-char checkInstance(note inst, char status) {
-    if(status == -1) return 1;
-    return (status == inst.checked);
-}
-
 note extractNote(char* line) {
     short len = strlen(line);
     uint8_t count = 0;
@@ -39,11 +34,10 @@ note* instances() {
     char* lineBuff = (char*) malloc(60);
     uint16_t lineCount = 0;
     uint16_t noteCount = 0;
-    uint16_t x = 0;
     char c;
     note resm;
     note* ret = (note*)malloc(ln *sizeof(note));
-    for(x; x<strlen(content); ++x) {
+    for(size_t x = 0; x<strlen(content); ++x) {
         c = content[x];
         if(c == '\n') {
             lineCount = 0;

@@ -10,21 +10,18 @@
 #define LINES "../db/lines.txt"
 
 uint16_t lines() {
-    FILE *f;
     uint16_t ln;
-    f = fopen(LINES, "r");
+    FILE* f = fopen(LINES, "r");
     fscanf(f, "%hd", &ln);
     fclose(f);
     return ln;
 }
 
-uint16_t addLines(int16_t num) {
-    uint16_t ln = lines();
-    ln += num;
+void addLines(int16_t num) {
+    uint16_t ln = lines() + num;
     FILE *f = fopen(LINES, "w");
     fprintf(f, "%hu", ln);
     fclose(f);
-    return ln;
 }
 
 char* readDB() {
