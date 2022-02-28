@@ -1,11 +1,11 @@
 #include "notes.h"
 #include <ctype.h>
 
-void displayNotes(char status, note* arr) {
+void displayNotes(char status) {
     if(status < -1 || status > 1) printf("Uknown status\n");
-    for(size_t x = 0; x<lines(); x++) 
-        if(status == -1 || status == arr[x].checked) 
-            printf("%c %lu. '%s'\n", arr[x].checked ? 'v': 'x', x+1, arr[x].content);
+    note* arr = instances();
+    for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].checked) printf("%c %lu. '%s'\n", arr[x].checked ? 'v': 'x', x+1, arr[x].content);
+    free(arr);
     exit(0);
 }
 
@@ -13,17 +13,6 @@ char argisdigit(char* value) {
     for(size_t x = 0; x<strlen(value); x++) if(!isdigit(value[x])) return 0;
     return 1;
 }
-
-/*
-
-    -----Commands-----
-    (Not case sensitive)
-    '-c': create a note
-    '-r': read notes
-    '-u': update status
-    '-d': delete note
-
-*/
 
 int main(int argc, char* argv[]) {
     if(!strcmp(argv[1], "-c") || !strcmp(argv[1], "-C")) {
@@ -36,12 +25,10 @@ int main(int argc, char* argv[]) {
         else if(!as) printf("Note lengthier than allowed\nLength: %ld\nMaximum: 50\n", strlen(argv[2]));
         else printf("Maximum storage\n");
     } else if(!strcmp(argv[1], "-r") || !strcmp(argv[1], "-R")) {
-        note* allNotes = instances();
-        if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1, allNotes);
-        if(!strcmp(argv[2], "-v") || !strcmp(argv[2], "-V")) displayNotes(1, allNotes);
-        else if(!strcmp(argv[2], "-x") || !strcmp(argv[2], "-X")) displayNotes(0, allNotes);
+        if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1);
+        if(!strcmp(argv[2], "-v") || !strcmp(argv[2], "-V")) displayNotes(1);
+        else if(!strcmp(argv[2], "-x") || !strcmp(argv[2], "-X")) displayNotes(0);
         else printf("Uknown status\n");
-        free(allNotes);
     } else if(!strcmp(argv[1], "-u") || !strcmp(argv[1], "-U")) {
         if(argc == 2) {
             printf("No input note\n");
@@ -62,8 +49,7 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
         if(!strcmp(argv[2], ".")) {
-            FILE *f = fopen(DB, "w");
-            fclose(f);
+            fclose(fopen(DB, "w"));
             addLines(-lines());
             return 0;
         }
