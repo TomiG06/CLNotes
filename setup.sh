@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install gcc
 mkdir db
 cd db
 touch notes.csv
