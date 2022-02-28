@@ -43,7 +43,7 @@ void update(uint16_t line) {
     char* content = readDB();
     size_t counter = 0;
     for(size_t x = 0; x<strlen(content); x++) {
-        if(content[x] == ',') counter++;
+        if(content[x] == '~') counter++;
         if(counter == line) {
             content[x+1] = content[x+1] == 49 ? 48: 49;
             break;
