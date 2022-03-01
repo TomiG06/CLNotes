@@ -9,11 +9,10 @@ typedef struct noteStruct {
 } note;
 
 note extractNote(char* line) {
-    short len = strlen(line);
     uint8_t count = 0;
     uint8_t x = 0;
     note ret;
-    for(x; x < len; x++) {
+    for(x; x < strlen(line); x++) {
         if(line[x] == '~') {
             ret.content[x] = 0x0;
             break;
@@ -65,13 +64,13 @@ char addNote(char* content) {
     if(lines() == 100) return -1;
     char instance[60];
     sprintf(instance, "%s~%d\n", content, 0);
-    append(instance);
+    writeDB(instance, "a");
     addLines(1);
     return 1;
 }
 
-uint8_t updateNote(uint16_t line) {
-    if(line < 1 || line > lines()) return 0;
+uint8_t updateNotes(uint16_t line, uint16_t ln) {
+    if(line < 1 || line > ln) return 0;
     update(line);
     return 1;
 }
@@ -87,6 +86,18 @@ char deleteNote(uint16_t line) {
     fclose(f);
     free(all);
     addLines(-1);
+    return 1;
+}
+
+char deleteByStatus(char* status) {
+    if(strcmp(status, "-x") && strcmp(status, "-v")) return 0;
+    char statuss = strcmp(status, "-x")? 1: 0;
+    note* all = instances();
+    size_t tracker = 0;
+    size_t ln = lines();
+    for(size_t x = 0; x<ln; ++x)
+        if(all[x].checked == statuss) deleteNote(tracker);
+        else tracker++;
     return 1;
 }
 

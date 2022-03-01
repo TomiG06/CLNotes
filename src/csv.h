@@ -33,8 +33,8 @@ char* readDB() {
     return content;
 }
 
-void append(char* content) {
-    FILE *f = fopen(DB, "a");
+void writeDB(char* content, char* status) {
+    FILE *f = fopen(DB, status);
     fprintf(f, "%s", content);
     fclose(f);
 }
