@@ -1,7 +1,7 @@
 # CLNotes
 
 ## Description
-CLNotes is a (crud) command line tool that helps you keep track of your notes/todos using the command line, like a pro B-)
+CLNotes is a (crud) command line tool that helps you keep track of your notes/todos using the command line, like a pro(grammer) B-)
 
 ## Installation
 ```
@@ -15,4 +15,4 @@ cd CLNotes
 * `-c "new note/todo"`
 * `-r [status, . or blank(all)]`
 * `-u [number/s to check/uncheck]`
-* `-d [number/s to delete, .(all)]`
+* `-d [number/s to delete, .(all), status]`
