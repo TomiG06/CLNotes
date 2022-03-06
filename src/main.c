@@ -8,7 +8,8 @@ int main(int argc, char* argv[]) {
         }
         char as = addNote(argv[2]);
         if(as == 1) printf("Successfully added!\n");
-        else if(!as) printf("Note lengthier than allowed\nLength: %ld\nMaximum: 50\n", strlen(argv[2]));
+        else if(!as) printf("Note lengthier than allowed\nLength: %ld\nMaximum: 100\n", strlen(argv[2]));
+        else if(as == -2) printf("Note can't contain delimeter '~'\n");
         else printf("Maximum storage\n");
     } else if(!strcmp(argtolower(argv[1]), "-r")) {
         if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1);

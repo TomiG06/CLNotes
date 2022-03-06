@@ -25,7 +25,7 @@ note extractNote(char* line) {
 
 note* instances() {
     uint16_t ln = lines();
-    if(ln == 0) {
+    if(!ln) {
         printf("Database is empty\nAdd stuff with 'clnotes -c \"your note/todo\"'\n");
         exit(0);
     }
@@ -59,11 +59,13 @@ char addNote(char* content) {
     +1 Successfully added
      0 Longer than allowed (fail)
     -1 Can't add more        ''
+    -2 Cointains delimeter   ''
 */
     if(strlen(content) > 100) return 0;
     if(lines() == 100) return -1;
+    for(uint8_t x = 0; x<strlen(content); ++x) if(content[x] == '~') return -2;
     char instance[105];
-    sprintf(instance, "%s~%d\n", content, 0);
+    sprintf(instance, "%s~0\n", content);
     writeDB(instance, "a");
     addLines(1);
     return 1;
@@ -98,6 +100,7 @@ char deleteByStatus(char* status) {
     for(size_t x = 0; x<ln; ++x)
         if(all[x].checked == statuss) deleteNote(tracker);
         else tracker++;
+    free(all);
     return 1;
 }
 

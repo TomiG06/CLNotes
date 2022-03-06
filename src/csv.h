@@ -28,7 +28,7 @@ char* readDB() {
     FILE *f = fopen(DB, "r");
     char c;
     uint16_t x = 0;
-    char* content = (char*) malloc(60*lines());
+    char* content = (char*) malloc(105*lines());
     while((c = getc(f)) != EOF) content[x++] = c;
     return content;
 }
