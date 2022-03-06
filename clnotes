@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /home/$(whoami)/CLNotes/src/
-if [[ $# == 0 ]]; then
+if !(( $# )); then
     ./clnotesExec -h
 else
     ./clnotesExec "$@"
