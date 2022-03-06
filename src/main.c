@@ -1,5 +1,4 @@
 #include "helpers.h"
-//#include "notes.h"
 
 int main(int argc, char* argv[]) {
     if(!strcmp(argtolower(argv[1]), "-c")) {
@@ -54,6 +53,8 @@ int main(int argc, char* argv[]) {
             if(ds) printf("Note %s deleted successfully\n", argv[x]);
             else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], lines());
         }
+    } else if(!strcmp(argtolower(argv[1]), "-h")) {
+        help();
     } else printf("Uknown command '%s'\n", argv[1]);
     return 0;
 }

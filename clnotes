@@ -1,4 +1,7 @@
 #!/bin/bash
-
 cd /home/$(whoami)/CLNotes/src/
-./clnotesExec "$@"
+if [[ $# == 0 ]]; then
+    ./clnotesExec -h
+else
+    ./clnotesExec "$@"
+fi

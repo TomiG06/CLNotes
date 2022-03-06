@@ -24,4 +24,23 @@ char* argtolower(char* value) {
     return ret;
 }
 
+void help() {
+    printf("usage: clnotes [command] [args]\n");
+    printf("\nStatus args: '-v', '-x'\n");
+    printf("All args: '.', '' (Note: blank doesn't work on '-d')\n");
+    printf("Nums args: Number\\s corresponding to note\\s (you can check them with 'clnotes -r')\n\n");
+    printf("Commands: (no need to worry about case sensitivity)\n");
+    printf("\t-h: help\n");
+    printf("\t\tArg: None\n");
+    printf("\t-c: create instance\n");
+    printf("\t\tArg: instance to store (string)\n");
+    printf("\t-r: read instances\n");
+    printf("\t\tArg: status or all\n");
+    printf("\t-u: update instances' status\n");
+    printf("\t\tArg\\s: nums to update\n");
+    printf("\t-d: delete instances\n");
+    printf("\t\tArg\\s: status, all or nums\n");
+    return;
+}
+
 #endif
