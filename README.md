@@ -12,7 +12,13 @@ cd CLNotes
 ```
 
 ## Commands
-* `-c "new note/todo"`
+* `-c [new instance (string)]`
 * `-r [status, . or blank(all)]`
 * `-u [number/s to check/uncheck]`
 * `-d [number/s to delete, .(all), status]`
+* `-h`
+
+## Note
+```
+Inside the program, words 'note', 'instance' and 'todo' refer to the same thing
+```
