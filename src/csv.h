@@ -10,15 +10,15 @@
 #define LINES "../db/lines.txt"
 
 uint16_t lines() {
-    uint16_t ln;
+    uint8_t ln;
     FILE* f = fopen(LINES, "r");
-    fscanf(f, "%hd", &ln);
+    fscanf(f, "%hhd", &ln);
     fclose(f);
     return ln;
 }
 
-void addLines(int16_t num) {
-    uint16_t ln = lines() + num;
+void addLines(int8_t num) {
+    uint8_t ln = lines() + num;
     FILE *f = fopen(LINES, "w");
     fprintf(f, "%hu", ln);
     fclose(f);
@@ -39,7 +39,7 @@ void writeDB(char* content, char* status) {
     fclose(f);
 }
 
-void update(uint16_t line) {
+void update(uint8_t line) {
     char* content = readDB();
     size_t counter = 0;
     for(size_t x = 0; x<strlen(content); x++) {

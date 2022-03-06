@@ -22,7 +22,7 @@ char* argtolower(char* value) {
 }
 
 int main(int argc, char* argv[]) {
-    if(!strcmp(argv[1], "-c") || !strcmp(argv[1], "-C")) {
+    if(!strcmp(argtolower(argv[1]), "-c")) {
         if(argc == 2) {
             printf("Second argument must be the note you want to add\n");
             exit(1);
@@ -41,13 +41,13 @@ int main(int argc, char* argv[]) {
             printf("No input note\n");
             exit(1);
         }
-        uint16_t ln = lines();
-        for(size_t x = 2; x<argc; ++x) {
+        uint8_t ln = lines();
+        for(uint8_t x = 2; x<argc; ++x) {
             if(!argisdigit(argv[x])) {
                 printf("Expected number, got '%s'\n", argv[x]);
                 continue;
             }
-            uint8_t us = updateNotes(atoi(argv[x]), ln);
+            uint8_t us = updateNote(atoi(argv[x]), ln);
             if(us) printf("Note %s updated successfully\n", argv[x]);
             else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], ln);
         }

@@ -4,7 +4,7 @@
 #include "csv.h"
 
 typedef struct noteStruct {
-    char content[60];
+    char content[100];
     uint8_t checked;
 } note;
 
@@ -30,7 +30,7 @@ note* instances() {
         exit(0);
     }
     char* content = readDB();
-    char* lineBuff = (char*) malloc(60);
+    char* lineBuff = (char*) malloc(105);
     uint16_t lineCount = 0;
     uint16_t noteCount = 0;
     char c;
@@ -43,7 +43,7 @@ note* instances() {
             resm = extractNote(lineBuff);
             ret[noteCount] = resm;
             noteCount++;
-            memset(lineBuff, 0, 65);
+            memset(lineBuff, 0, 105);
             continue;
         } else if(c == EOF) break;
         lineBuff[lineCount] = c;
@@ -60,29 +60,29 @@ char addNote(char* content) {
      0 Longer than allowed (fail)
     -1 Can't add more        ''
 */
-    if(strlen(content) > 50) return 0;
+    if(strlen(content) > 100) return 0;
     if(lines() == 100) return -1;
-    char instance[60];
+    char instance[105];
     sprintf(instance, "%s~%d\n", content, 0);
     writeDB(instance, "a");
     addLines(1);
     return 1;
 }
 
-uint8_t updateNotes(uint16_t line, uint16_t ln) {
+uint8_t updateNote(uint16_t line, uint16_t ln) {
     if(line < 1 || line > ln) return 0;
     update(line);
     return 1;
 }
 
 char deleteNote(uint16_t line) {
-    uint16_t ln = lines();
+    uint8_t ln = lines();
     if(line < 0 || line > ln-1) return 0;
     note* all = instances();
     for(line; line<ln; line++) all[line] = all[line+1];
     --ln;
     FILE *f = fopen(DB, "w");
-    for(uint16_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].checked);
+    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].checked);
     fclose(f);
     free(all);
     addLines(-1);
