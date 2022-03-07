@@ -3,24 +3,21 @@
 
 #include "csv.h"
 
-typedef struct noteStruct {
+typedef struct note {
     char content[100];
     uint8_t checked;
 } note;
 
 note extractNote(char* line) {
-    uint8_t count = 0;
-    uint8_t x = 0;
     note ret;
-    for(x; x < strlen(line); x++) {
+    for(uint8_t x = 0; x < strlen(line); x++) {
         if(line[x] == '~') {
             ret.content[x] = 0x0;
-            break;
+            ret.checked = line[x+1]-48;
+            return ret;
         }
         ret.content[x] = line[x];
     }
-    ret.checked = line[x+1]-48;
-    return ret;
 }
 
 note* instances() {

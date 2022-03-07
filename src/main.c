@@ -1,7 +1,8 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
-    if(!strcmp(argtolower(argv[1]), "-c")) {
+    char* cmd = argtolower(argv[1]); //unfreed memory
+    if(!strcmp(cmd, "-c")) {
         if(argc == 2) {
             printf("Second argument must be the note you want to add\n");
             exit(1);
@@ -11,12 +12,12 @@ int main(int argc, char* argv[]) {
         else if(!as) printf("Note lengthier than allowed\nLength: %ld\nMaximum: 100\n", strlen(argv[2]));
         else if(as == -2) printf("Note can't contain delimeter '~'\n");
         else printf("Maximum storage\n");
-    } else if(!strcmp(argtolower(argv[1]), "-r")) {
+    } else if(!strcmp(cmd, "-r")) {
         if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1);
         if(!strcmp(argtolower(argv[2]), "-v")) displayNotes(1);
         else if(!strcmp(argtolower(argv[2]), "-x")) displayNotes(0);
         else printf("Uknown status\n");
-    } else if(!strcmp(argtolower(argv[1]), "-u")) {
+    } else if(!strcmp(cmd, "-u")) {
         if(argc == 2) {
             printf("No input note\n");
             exit(1);
@@ -31,7 +32,7 @@ int main(int argc, char* argv[]) {
             if(us) printf("Note %s updated successfully\n", argv[x]);
             else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], ln);
         }
-    } else if(!strcmp(argtolower(argv[1]), "-d")) {
+    } else if(!strcmp(cmd, "-d")) {
         if(argc == 2) {
             printf("No input note\n");
             exit(1);
@@ -54,7 +55,7 @@ int main(int argc, char* argv[]) {
             if(ds) printf("Note %s deleted successfully\n", argv[x]);
             else printf("Number %s out of range\nRange: 0 ... %d\n", argv[2], lines());
         }
-    } else if(!strcmp(argtolower(argv[1]), "-h")) {
+    } else if(!strcmp(cmd, "-h")) {
         help();
     } else printf("Uknown command '%s'\n", argv[1]);
     return 0;
