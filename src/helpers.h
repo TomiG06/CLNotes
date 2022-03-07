@@ -5,7 +5,6 @@
 #include <ctype.h>
 
 void displayNotes(char status) {
-    if(status < -1 || status > 1) printf("Uknown status\n");
     note* arr = instances();
     for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].checked) printf("%c %lu. '%s'\n", arr[x].checked ? 'v': 'x', x+1, arr[x].content);
     free(arr);
