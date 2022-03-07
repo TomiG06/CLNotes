@@ -53,13 +53,17 @@ note* instances() {
 
 char addNote(char* content) {
 /*
+    +2 Instance in db      (fail)
     +1 Successfully added
      0 Longer than allowed (fail)
     -1 Can't add more        ''
     -2 Cointains delimeter   ''
 */
     if(strlen(content) > 100) return 0;
-    if(lines() == 100) return -1;
+    uint8_t ln = lines();
+    if(ln == 100) return -1;
+    note* all = instances();
+    for(uint8_t x = 0; x<ln; ++x) if(!strcmp(all[x].content, content)) return 2;
     for(uint8_t x = 0; x<strlen(content); ++x) if(content[x] == '~') return -2;
     char instance[105];
     sprintf(instance, "%s~0\n", content);
