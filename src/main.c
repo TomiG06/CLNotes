@@ -1,8 +1,8 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
-    char* cmd = argtolower(argv[1]); //unfreed memory
-    if(!strcmp(cmd, "-c")) {
+    for(size_t x = 1; x<argc; ++x) argv[x] = argtolower(argv[x]);
+    if(!strcmp(argv[1], "-c")) {
         if(argc == 2) {
             fprintf(stderr, "Second argument must be the note you want to add\n");
             return 1;
@@ -15,15 +15,15 @@ int main(int argc, char* argv[]) {
             else fprintf(stderr, "You have reached the maximum amount of notes allowed\n");
             return 1;
         }
-    } else if(!strcmp(cmd, "-r")) {
+    } else if(!strcmp(argv[1], "-r")) {
         if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1);
-        if(!strcmp(argtolower(argv[2]), "-v")) displayNotes(1);
-        else if(!strcmp(argtolower(argv[2]), "-x")) displayNotes(0);
+        else if(!strcmp(argv[2], "-v")) displayNotes(1);
+        else if(!strcmp(argv[2], "-x")) displayNotes(0);
         else {
             fprintf(stderr, "Uknown status\n");
             return 1;
         }
-    } else if(!strcmp(cmd, "-u")) {
+    } else if(!strcmp(argv[1], "-u")) {
         if(argc == 2) {
             fprintf(stderr, "No input note\n");
             return 1;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
             if(us) printf("Note %s updated successfully\n", argv[x]);
             else fprintf(stderr, "Number %s out of range\nRange: 0 ... %d\n", argv[2], ln);
         }
-    } else if(!strcmp(cmd, "-d")) {
+    } else if(!strcmp(argv[1], "-d")) {
         if(argc == 2) {
             fprintf(stderr, "No input note\n");
             return 1;
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
             return 0;
         }
         if(!argisdigit(argv[2])) {
-            if(!deleteByStatus(argtolower(argv[2]))) {
+            if(!deleteByStatus(argv[2])) {
                 fprintf(stderr, "Uknown status '%s'\n", argv[2]);
                 return 1;
             }
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
             if(ds) printf("Note %s deleted successfully\n", argv[x]);
             else fprintf(stderr, "Number %s out of range\nRange: 0 ... %d\n", argv[2], lines());
         }
-    } else if(!strcmp(cmd, "-h")) {
+    } else if(!strcmp(argv[1], "-h")) {
         help();
     } else {
         fprintf(stderr, "Uknown command '%s'\n", argv[1]);

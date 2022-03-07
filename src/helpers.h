@@ -8,7 +8,6 @@ void displayNotes(char status) {
     note* arr = instances();
     for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].checked) printf("%c %lu. '%s'\n", arr[x].checked ? 'v': 'x', x+1, arr[x].content);
     free(arr);
-    exit(0);
 }
 
 char argisdigit(char* value) {
@@ -16,11 +15,9 @@ char argisdigit(char* value) {
     return 1;
 }
 
-char* argtolower(char* value) {
-    size_t ln = strlen(value);
-    char* ret = (char*) malloc(ln);
-    for(size_t x = 0; x<ln; x++) ret[x] = tolower(value[x]);
-    return ret;
+char* argtolower(char value[]) {
+    for(size_t x = 0; x<strlen(value); x++) value[x] = tolower(value[x]);
+    return value;
 }
 
 void help() {
@@ -39,7 +36,6 @@ void help() {
     printf("\t\tArg\\s: nums to update\n");
     printf("\t-d: delete instances\n");
     printf("\t\tArg\\s: status, all or nums\n");
-    return;
 }
 
 #endif
