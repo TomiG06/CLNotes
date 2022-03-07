@@ -18,7 +18,7 @@ cd CLNotes
 * `-d [number/s to delete, .(all), status]`
 * `-h`
 
-## Note
-```
-Inside the program, words 'note', 'instance' and 'todo' refer to the same thing
-```
+## Notes
+
+* Inside the program, words 'note', 'instance' and 'todo' refer to the same thing
+* Exit status 1 does not take place when user enters illegal number arguments on `-d` and `-u` (illegal meaning numbers out of range and strings containing non digit characters). Might modify in the future to ignore them or give exit status 1 when meeted.
