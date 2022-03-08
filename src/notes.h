@@ -22,10 +22,7 @@ note extractNote(char* line) {
 
 note* instances() {
     uint16_t ln = lines();
-    if(!ln) {
-        printf("Database is empty\nAdd stuff with 'clnotes -c \"your note/todo\"'\n");
-        exit(0);
-    }
+    if(!ln) return NULL;
     char* content = readDB();
     char* lineBuff = (char*) malloc(105);
     uint16_t lineCount = 0;
@@ -63,7 +60,13 @@ char addNote(char* content) {
     uint8_t ln = lines();
     if(ln == 100) return -1;
     note* all = instances();
-    for(uint8_t x = 0; x<ln; ++x) if(!strcmp(all[x].content, content)) return 2;
+    for(uint8_t x = 0; x<ln; ++x) {
+        if(!strcmp(all[x].content, content)) {
+            free(all);
+            return 2;
+        }
+    }
+    free(all);
     for(uint8_t x = 0; x<strlen(content); ++x) if(content[x] == '~') return -2;
     char instance[105];
     sprintf(instance, "%s~0\n", content);
