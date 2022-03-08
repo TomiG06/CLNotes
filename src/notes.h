@@ -5,7 +5,7 @@
 
 typedef struct note {
     char content[100];
-    uint8_t checked;
+    uint8_t completed;
 } note;
 
 note extractNote(char* line) {
@@ -13,7 +13,7 @@ note extractNote(char* line) {
     for(uint8_t x = 0; x < strlen(line); x++) {
         if(line[x] == '~') {
             ret.content[x] = 0x0;
-            ret.checked = line[x+1]-48;
+            ret.completed = line[x+1]-48;
             return ret;
         }
         ret.content[x] = line[x];
@@ -88,7 +88,7 @@ char deleteNote(uint16_t line) {
     for(line; line<ln; line++) all[line] = all[line+1];
     --ln;
     FILE *f = fopen(DB, "w");
-    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].checked);
+    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].completed);
     fclose(f);
     free(all);
     addLines(-1);
@@ -102,7 +102,7 @@ char deleteByStatus(char* status) {
     size_t tracker = 0;
     size_t ln = lines();
     for(size_t x = 0; x<ln; ++x)
-        if(all[x].checked == statuss) deleteNote(tracker);
+        if(all[x].completed == statuss) deleteNote(tracker);
         else tracker++;
     free(all);
     return 1;
