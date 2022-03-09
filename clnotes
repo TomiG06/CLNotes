@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/$(whoami)/CLNotes/src/
+cd /home/$(whoami)/clnotes/src/
 if !(( $# )); then
     ./clnotesExec -h
 else
