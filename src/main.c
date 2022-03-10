@@ -8,8 +8,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         char as = addNote(argv[2]);
-        if(as == 1) return 0;
-        else {
+        if(as != 1) {
             if(!as) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: 100\n", strlen(argv[2]));
             else if(as == -2) fprintf(stderr, "Note can't contain delimeter '~'\n");
             else if(as == 2) fprintf(stderr, "Instance already exists\n");

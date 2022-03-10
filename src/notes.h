@@ -5,7 +5,7 @@
 
 typedef struct note {
     char content[100];
-    uint8_t completed;
+    uint8_t completed; //For todos
 } note;
 
 note extractNote(char* line) {
@@ -25,17 +25,14 @@ note* instances() {
     if(!ln) return NULL;
     char* content = readDB();
     char* lineBuff = (char*) malloc(105);
-    uint16_t lineCount = 0;
-    uint16_t noteCount = 0;
+    uint16_t lineCount = 0, noteCount = 0;
     char c;
-    note resm;
     note* ret = (note*)malloc(ln *sizeof(note));
     for(size_t x = 0; x<strlen(content); ++x) {
         c = content[x];
         if(c == 0xA) {
             lineCount = 0;
-            resm = extractNote(lineBuff);
-            ret[noteCount] = resm;
+            ret[noteCount] = extractNote(lineBuff);
             noteCount++;
             memset(lineBuff, 0, 105);
             continue;
@@ -75,8 +72,8 @@ char addNote(char* content) {
     return 1;
 }
 
-uint8_t updateNote(uint16_t line, uint16_t ln) {
-    if(line < 1 || line > ln) return 0;
+uint8_t updateNote(uint16_t line) {
+    if(line < 1 || line > lines()) return 0;
     update(line);
     return 1;
 }
