@@ -32,13 +32,11 @@ note* instances() {
         c = content[x];
         if(c == 0xA) {
             lineCount = 0;
-            ret[noteCount] = extractNote(lineBuff);
-            noteCount++;
+            ret[noteCount++] = extractNote(lineBuff);
             memset(lineBuff, 0, 105);
             continue;
         } else if(c == EOF) break;
-        lineBuff[lineCount] = c;
-        lineCount++;
+        lineBuff[lineCount++] = c;
     }
     free(content);
     free(lineBuff);
