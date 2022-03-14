@@ -1,7 +1,7 @@
 # clnotes
 
 ## Description
-clnotes is a command line tool that helps you keep track of your notes/todos using the command line, like a pro(grammer) B-). This is the first thing that I have ever built with C that actually does something helpful, so feedback is more than welcome.
+clnotes is a command line tool that helps you keep track of your notes/todos, like a pro(grammer) B-). Feedback is more than welcome.
 
 ## Installation
 ```
