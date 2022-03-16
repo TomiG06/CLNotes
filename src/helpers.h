@@ -21,9 +21,9 @@ char* argtolower(char value[]) {
 }
 
 void help() {
-    printf("usage: clnotes [command] [args]\n");
-    printf("\nStatus args: '-v', '-x'\n");
-    printf("All args: '.', '' (Note: blank doesn't work on '-d')\n");
+    printf("usage: clnotes [command] [args]\n\n");
+    printf("Status args: '-v', '-x'\n");
+    printf("All args: '-a', ''(-> on read)\n");
     printf("Nums args: Number\\s corresponding to note\\s (you can check them with 'clnotes -r')\n\n");
     printf("Commands: (no need to worry about case sensitivity)\n");
     printf("\t-h: help\n");

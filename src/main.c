@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     } else if(!strcmp(argv[1], "-r")) {
-        if(argc == 2 || !strcmp(argv[2], ".")) displayNotes(-1);
+        if(argc == 2 || !strcmp(argv[2], "-a")) displayNotes(-1);
         else if(!strcmp(argv[2], "-v")) displayNotes(1);
         else if(!strcmp(argv[2], "-x")) displayNotes(0);
         else {
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "No input note\n");
             return 1;
         }
-        if(!strcmp(argv[2], ".")) {
+        if(!strcmp(argv[2], "-a")) {
             writeDB("", "w");
             addLines(-lines());
             return 0;

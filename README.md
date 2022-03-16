@@ -13,10 +13,10 @@ chmod +x setup.sh
 ```
 
 ## Commands
-* `-c [new instance (string)]`
-* `-r [status, . or blank(all)]`
+* `-c "new instance"`
+* `-r [status, all]`
 * `-u [number/s to check/uncheck]`
-* `-d [number/s to delete, .(all), status]`
+* `-d [number/s to delete, all, status]`
 * `-h`
 
 ## Notes
