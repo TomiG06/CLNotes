@@ -1,7 +1,10 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
-    for(size_t x = 1; x<argc; ++x) argv[x] = argtolower(argv[x]);
+    for(size_t x = 1; x<argc; ++x) {
+        argv[x] = argtolower(argv[x]);
+        if(!strcmp(argv[x], "-c")) break;
+    }
     if(!strcmp(argv[1], "-c")) {
         if(argc != 3) {
             fprintf(stderr, "Must receive 3 arguments\nReceived %d\n", argc);
