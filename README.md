@@ -8,7 +8,6 @@ clnotes is a command line tool that helps you keep track of your notes/todos, li
 cd
 git clone https://github.com/TomiG06/clnotes.git
 cd clnotes
-chmod +x setup.sh
 ./setup.sh
 ```
 
