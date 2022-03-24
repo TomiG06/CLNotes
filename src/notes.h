@@ -62,7 +62,8 @@ char addNote(char* content) {
         }
     }
     free(all);
-    for(uint8_t x = 0; x<strlen(content); ++x) if(content[x] == '~') return -2;
+    ln = strlen(content); //Was not used again and O(2n) > O(n^2)
+    for(uint8_t x = 0; x<ln; ++x) if(content[x] == '~') return -2;
     char instance[105];
     sprintf(instance, "%s~0\n", content);
     writeDB(instance, "a");
@@ -92,7 +93,8 @@ char deleteNote(uint16_t line) {
 
 char deleteByStatus(char* status) {
     if(strcmp(status, "-x") && strcmp(status, "-v")) return 0;
-    char statuss = strcmp(status, "-x")? 1: 0;
+    char statuss = !strcmp(status, "-v"); 
+    //strcmp returns 0 if args are equal, -v means we want 1, so if it is -v then !0 -> 1
     note* all = instances();
     size_t tracker = 0;
     size_t ln = lines();
