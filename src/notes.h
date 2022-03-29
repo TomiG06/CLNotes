@@ -11,7 +11,16 @@ typedef struct note {
 note extractNote(char* line) {
     note ret;
     for(uint8_t x = 0; x < strlen(line); x++) {
-        if(line[x] == '~') {
+        if(line[x] == '~') { //0x1F
+        /*
+            If delimeter is met:
+                Content gets NULL terminated
+                Next char is status => (
+                    1 -> Completed
+                    0 -> !1
+                )
+            else the character is pushed in the content because it belongs there
+        */
             ret.content[x] = 0x0;
             ret.completed = line[x+1]-48;
             return ret;
@@ -25,10 +34,15 @@ note* instances() {
     if(!ln) return NULL;
     char* content = readDB();
     char* lineBuff = (char*) malloc(105);
+    /*
+        lineCount helps keep track of lineBuff's next free cell
+        whereas noteCount helps keep track of ret's next free cell (ret is declared 4 lines below)
+    */
     uint16_t lineCount = 0, noteCount = 0;
     char c;
     note* ret = (note*)malloc(ln *sizeof(note));
-    for(size_t x = 0; x<strlen(content); ++x) {
+    ln = strlen(content); //Was not used again and O(2n) > O(n^2)
+    for(size_t x = 0; x<ln; ++x) {
         c = content[x];
         if(c == 0xA) {
             lineCount = 0;
@@ -63,9 +77,9 @@ char addNote(char* content) {
     }
     free(all);
     ln = strlen(content); //Was not used again and O(2n) > O(n^2)
-    for(uint8_t x = 0; x<ln; ++x) if(content[x] == '~') return -2;
+    for(uint8_t x = 0; x<ln; ++x) if(content[x] == '~') return -2; //0x1F
     char instance[105];
-    sprintf(instance, "%s~0\n", content);
+    sprintf(instance, "%s~0\n", content); //0x1F
     writeDB(instance, "a");
     addLines(1);
     return 1;
@@ -84,7 +98,7 @@ char deleteNote(uint16_t line) {
     for(line; line<ln; line++) all[line] = all[line+1];
     --ln;
     FILE *f = fopen(DB, "w");
-    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].completed);
+    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].completed); //0x1F
     fclose(f);
     free(all);
     addLines(-1);
@@ -93,8 +107,8 @@ char deleteNote(uint16_t line) {
 
 char deleteByStatus(char* status) {
     if(strcmp(status, "-x") && strcmp(status, "-v")) return 0;
+    //strcmp returns 0 if args are equal, -v means we want 1, so if it is -v then !0 -> 1. Else, !(int /= 0) -> 0
     char statuss = !strcmp(status, "-v"); 
-    //strcmp returns 0 if args are equal, -v means we want 1, so if it is -v then !0 -> 1
     note* all = instances();
     size_t tracker = 0;
     size_t ln = lines();

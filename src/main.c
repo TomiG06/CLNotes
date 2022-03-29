@@ -1,21 +1,26 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
-    for(size_t x = 1; x<argc; ++x) {
+    for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both capital and lower case
         argv[x] = argtolower(argv[x]);
-        if(!strcmp(argv[x], "-c")) break;
+        if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
     }
     if(!strcmp(argv[1], "-c")) {
         if(argc != 3) {
+        /*
+            valid usage: clnotes -c "my note/todo"
+            Might modify to have the ability to give note without having to put ""
+                Like: clnote -c my note/todo
+        */
             fprintf(stderr, "Must receive 3 arguments\nReceived %d\n", argc);
             return 1;
         }
         char as = addNote(argv[2]);
         if(as != 1) {
             if(!as) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: 100\n", strlen(argv[2]));
-            else if(as == -2) fprintf(stderr, "Note can't contain delimeter '~'\n");
+            else if(as == -2) fprintf(stderr, "Note can't contain delimeter '~'\n"); //TODO: Replace ~ with 0x1F
             else if(as == 2) fprintf(stderr, "Instance already exists\n");
-            else fprintf(stderr, "You have reached the maximum amount of notes allowed\n");
+            else fprintf(stderr, "You have reached the maximum amount of notes allowed\n"); //Might delete the max notes but who will ever write 100 notes at once?
             return 1;
         }
     } else if(!strcmp(argv[1], "-r")) {
