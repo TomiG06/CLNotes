@@ -11,7 +11,7 @@ typedef struct note {
 note extractNote(char* line) {
     note ret;
     for(uint8_t x = 0; x < strlen(line); x++) {
-        if(line[x] == '~') { //0x1F
+        if(line[x] == DEL) {
         /*
             If delimeter is met:
                 Content gets NULL terminated
@@ -63,7 +63,6 @@ char addNote(char* content) {
     +1 Successfully added
      0 Longer than allowed (fail)
     -1 Can't add more        ''
-    -2 Cointains delimeter   ''
 */
     if(strlen(content) > 100) return 0;
     uint8_t ln = lines();
@@ -76,10 +75,8 @@ char addNote(char* content) {
         }
     }
     free(all);
-    ln = strlen(content); //Was not used again and O(2n) > O(n^2)
-    for(uint8_t x = 0; x<ln; ++x) if(content[x] == '~') return -2; //0x1F
     char instance[105];
-    sprintf(instance, "%s~0\n", content); //0x1F
+    sprintf(instance, "%s%c0\n", content, DEL);
     writeDB(instance, "a");
     addLines(1);
     return 1;
@@ -98,7 +95,7 @@ char deleteNote(uint16_t line) {
     for(line; line<ln; line++) all[line] = all[line+1];
     --ln;
     FILE *f = fopen(DB, "w");
-    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s~%d\n", all[x].content, all[x].completed); //0x1F
+    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s%c%d\n", all[x].content, DEL, all[x].completed);
     fclose(f);
     free(all);
     addLines(-1);

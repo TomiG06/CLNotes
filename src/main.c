@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
         char as = addNote(argv[2]);
         if(as != 1) {
             if(!as) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: 100\n", strlen(argv[2]));
-            else if(as == -2) fprintf(stderr, "Note can't contain delimeter '~'\n"); //TODO: Replace ~ with 0x1F
             else if(as == 2) fprintf(stderr, "Instance already exists\n");
             else fprintf(stderr, "You have reached the maximum amount of notes allowed\n"); //Might delete the max notes but who will ever write 100 notes at once?
             return 1;

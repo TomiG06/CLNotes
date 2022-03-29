@@ -9,6 +9,8 @@
 #define DB "../db/notes.csv"
 #define LINES "../db/lines.txt"
 
+#define DEL 0x1F
+
 uint16_t lines() {
     uint8_t ln;
     FILE* f = fopen(LINES, "r");
@@ -43,7 +45,7 @@ void update(uint8_t line) {
     char* content = readDB();
     size_t counter = 0;
     for(size_t x = 0; x<strlen(content); x++) {
-        if(content[x] == '~') counter++; //0x1F
+        if(content[x] == DEL) counter++;
         if(counter == line) {
             content[x+1] = content[x+1] == 49 ? 48: 49;
             break;
