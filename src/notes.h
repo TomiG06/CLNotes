@@ -64,12 +64,12 @@ char addNote(char* content) {
      0 Longer than allowed (fail)
     -1 Can't add more        ''
 */
-    if(strlen(content) > 100) return 0;
+    if(strlen(content) > 100) return 0; //check if length is more than allowed
     uint8_t ln = lines();
-    if(ln == 100) return -1;
+    if(ln == 100) return -1; //check if lines are 100, which means that limit is reached
     note* all = instances();
     for(uint8_t x = 0; x<ln; ++x) {
-        if(!strcmp(all[x].content, content)) {
+        if(!strcmp(all[x].content, content)) { //check if instance already exists
             free(all);
             return 2;
         }
@@ -92,8 +92,8 @@ char deleteNote(uint16_t line) {
     uint8_t ln = lines();
     if(line < 0 || line > ln-1) return 0;
     note* all = instances();
-    for(line; line<ln; line++) all[line] = all[line+1];
-    --ln;
+    for(line; line<ln; line++) all[line] = all[line+1]; //move every line, after the one to be deleted, -1 lines
+    ln -= 1; //a note is deleted so ln must decrement
     FILE *f = fopen(DB, "w");
     for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s%c%d\n", all[x].content, DEL, all[x].completed);
     fclose(f);
@@ -109,9 +109,10 @@ char deleteByStatus(char* status) {
     note* all = instances();
     size_t tracker = 0;
     size_t ln = lines();
-    for(size_t x = 0; x<ln; ++x)
+    for(size_t x = 0; x<ln; ++x) {
         if(all[x].completed == statuss) deleteNote(tracker);
         else tracker++;
+    }
     free(all);
     return 1;
 }

@@ -11,7 +11,12 @@
 
 #define DEL 0x1F
 
-uint16_t lines() {
+uint8_t lines() { //provided that max number of notes is 100, unsigned byte var is good enough
+    /*
+        decided to store the number of lines in a file
+        so that we don't have to loop through the whole content
+        and check for exery new line character
+    */
     uint8_t ln;
     FILE* f = fopen(LINES, "r");
     fscanf(f, "%hhd", &ln);
@@ -20,6 +25,7 @@ uint16_t lines() {
 }
 
 void addLines(int8_t num) {
+    //we use it in order to modify lines when we add a note/todo or delete one
     uint8_t ln = lines() + num;
     FILE *f = fopen(LINES, "w");
     fprintf(f, "%hu", ln);
@@ -30,13 +36,18 @@ char* readDB() {
     FILE *f = fopen(DB, "r");
     char c;
     uint16_t x = 0;
-    char* content = (char*) malloc(105*lines());
+    char* content = (char*) malloc(105*lines()); 
+    /*
+        max char count is 100 so we allocate 105 bytes for every line
+        5 bytes more just to be 1000% sure :) (might drop it to 100)
+    */
     while((c = getc(f)) != EOF) content[x++] = c;
     return content;
 }
 
 void writeDB(char* content, char* status) {
     FILE *f = fopen(DB, status);
+    //"a" for new | "w" for update/delete
     fprintf(f, "%s", content);
     fclose(f);
 }

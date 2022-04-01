@@ -2,3 +2,4 @@ db/
 test.c
 a.out
 clnotesExec
+*.swp

@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/$(whoami)/clnotes/src/
+cd $(dirname $(readlink -f $0))/src/
 if !(( $# )); then
     ./clnotesExec -h
 else
