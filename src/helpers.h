@@ -15,9 +15,8 @@ char argisdigit(char* value) {
     return 1;
 }
 
-char* argtolower(char value[]) {
-    for(size_t x = 0; x<strlen(value); x++) value[x] = tolower(value[x]);
-    return value;
+void argtolower(char* arg) {
+    for(size_t x = 0; x<strlen(arg); x++) *(arg + x) = tolower(arg[x]);
 }
 
 void help() {

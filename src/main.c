@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]) {
     for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both capital and lower case
-        argv[x] = argtolower(argv[x]);
+        argtolower(argv[x]);
         if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
     }
     if(!strcmp(argv[1], "-c")) {

@@ -15,7 +15,7 @@ uint8_t lines() { //provided that max number of notes is 100, unsigned byte var 
     /*
         decided to store the number of lines in a file
         so that we don't have to loop through the whole content
-        and check for exery new line character
+        and check for every new line character
     */
     uint8_t ln;
     FILE* f = fopen(LINES, "r");
@@ -25,7 +25,7 @@ uint8_t lines() { //provided that max number of notes is 100, unsigned byte var 
 }
 
 void addLines(int8_t num) {
-    //we use it in order to modify lines when we add a note/todo or delete one
+    //we use it in order to modify lines when we add/delete a note/todo
     uint8_t ln = lines() + num;
     FILE *f = fopen(LINES, "w");
     fprintf(f, "%hu", ln);
