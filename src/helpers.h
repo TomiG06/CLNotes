@@ -4,6 +4,31 @@
 #include "notes.h"
 #include <ctype.h>
 
+char argisdigit(char* value);
+void argtolower(char* arg);
+
+int* bsort(char* argv[], int argc) {
+    //Bubble sort algorithm
+    //O(n^2)
+    int* sorted = (int*) malloc(sizeof(int) * (argc-2));
+    int len = argc-2;
+    int temp;
+
+    for(size_t i = 0; i < len; ++i) sorted[i] = atoi(argv[i+2]);
+
+    for(size_t i = 0; i < len; ++i) {
+        for(size_t j = i+1; j < len; ++j) {
+            if(sorted[i] < sorted[j]) {
+                temp = sorted[i];
+                sorted[i] = sorted[j];
+                sorted[j] = temp;
+            }
+        }
+    }
+
+    return sorted;
+}
+
 void displayNotes(char status) {
     note* arr = instances();
     for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].completed) printf("%c %lu. %s\n", arr[x].completed ? 'v': 'x', x+1, arr[x].content);

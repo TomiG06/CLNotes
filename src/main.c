@@ -5,6 +5,7 @@ int main(int argc, char* argv[]) {
         argtolower(argv[x]);
         if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
     }
+
     if(!strcmp(argv[1], "-c")) {
         if(argc != 3) {
         /*
@@ -58,9 +59,20 @@ int main(int argc, char* argv[]) {
             }
             return 0;
         }
-        for(size_t x = 2; x<argc; ++x) {
-            if(!argisdigit(argv[x]) || !deleteNote(atoi(argv[2])-1)) {
-                fprintf(stderr, "Illegal number '%s'\n", argv[x]);
+        
+        for(size_t i = 2; i < argc; ++i) {
+            if(!argisdigit(argv[i])) {
+                fprintf(stderr, "Argument '%s' is not a number\n", argv[i]);
+                return 1;
+            }
+        }
+
+        int* sorted = bsort(argv, argc); //Must be sorted in order to be certain that we are deleting the right stuff
+        int len = argc-2;
+
+        for(size_t x = 0; x<len; ++x) {
+            if(!deleteNote(sorted[x]-1)) {
+                fprintf(stderr, "Illegal number '%d'\n", sorted[x]);
                 return 1;
             }
         }
