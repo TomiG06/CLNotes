@@ -1,5 +1,5 @@
 db/
-test.c
+test*
 a.out
 clnotesExec
 *.swp
