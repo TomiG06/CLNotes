@@ -4,9 +4,6 @@
 #include "notes.h"
 #include <ctype.h>
 
-char argisdigit(char* value);
-void argtolower(char* arg);
-
 int* bsort(char* argv[], int argc) {
     //Bubble sort algorithm
     //O(n^2)

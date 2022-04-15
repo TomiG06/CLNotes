@@ -38,8 +38,12 @@ char* readDB() {
     uint16_t x = 0;
     char* content = (char*) malloc(105*lines()); 
     /*
-        max char count is 100 so we allocate 105 bytes for every line
-        5 bytes more just to be 1000% sure :) (might drop it to 100)
+        maximum length -> 100
+        delimiter      -> 1
+        status         -> 1
+                          102 bytes to be allocated
+
+        3 bytes more just to be 1000% sure :)
     */
     while((c = getc(f)) != EOF) content[x++] = c;
     return content;
