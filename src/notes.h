@@ -61,7 +61,7 @@ char addNote(char* content) {
      0 Longer than allowed (fail)
     -1 Can't add more        ''
 */
-    if(strlen(content) > 100) return 0; //check if length is more than allowed
+    if(strlen(content) > MAX_LENGTH) return 0; //check if length is more than allowed
     uint8_t ln = lines();
     if(ln == 100) return -1; //check if lines are 100, which means that limit is reached
     note* all = instances();
@@ -72,7 +72,7 @@ char addNote(char* content) {
         }
     }
     free(all);
-    char instance[105];
+    char instance[MAX_LENGTH+3];
     sprintf(instance, "%s%c0\n", content, DEL);
     writeDB(instance, "a");
     addLines(1);
