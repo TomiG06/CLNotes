@@ -66,9 +66,7 @@ void update(uint8_t line) {
             break;
         }
     }
-    FILE *f = fopen(DB, "w");
-    fprintf(f, "%s", content);
-    fclose(f);
+    writeDB(content, "w");
     free(content);
 }
 
