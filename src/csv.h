@@ -9,6 +9,7 @@
 #define DB "../db/notes.csv"
 #define LINES "../db/lines.txt"
 
+#define MAX_LENGTH 100
 #define DEL 0x1F
 
 uint8_t lines() { //provided that max number of notes is 100, unsigned byte var is good enough
@@ -36,14 +37,13 @@ char* readDB() {
     FILE *f = fopen(DB, "r");
     char c;
     uint16_t x = 0;
-    char* content = (char*) malloc(105*lines()); 
+    char* content = (char*) malloc((MAX_LENGTH+3)*lines()); 
     /*
-        maximum length -> 100
-        delimiter      -> 1
-        status         -> 1
-                          102 bytes to be allocated
-
-        3 bytes more just to be 1000% sure :)
+        maximum length -> 100 (MAX_LENGTH)
+        delimiter      -> 001
+        status         -> 001
+        new line       -> 001
+                          103 bytes to be allocated
     */
     while((c = getc(f)) != EOF) content[x++] = c;
     return content;

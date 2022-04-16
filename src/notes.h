@@ -4,7 +4,7 @@
 #include "csv.h"
 
 typedef struct note {
-    char content[100];
+    char content[MAX_LENGTH];
     uint8_t completed; //For todos
 } note;
 
@@ -33,25 +33,22 @@ note* instances() {
     uint16_t ln = lines();
     if(!ln) return NULL;
     char* content = readDB();
-    char* lineBuff = (char*) malloc(105);
-    /*
-        lineCount helps keep track of lineBuff's next free cell
-        whereas noteCount helps keep track of ret's next free cell (ret is declared 4 lines below)
-    */
-    uint16_t lineCount = 0, noteCount = 0;
-    char c;
+    size_t len = MAX_LENGTH+3;
+    size_t lenBuff;
+    char* lineBuff = (char*) malloc(len);
+    uint16_t notesIndex = 0;
     note* ret = (note*)malloc(ln *sizeof(note));
-    ln = strlen(content); //Was not used again and O(2n) > O(n^2)
-    for(size_t x = 0; x<ln; ++x) {
-        c = content[x];
-        if(c == 0xA) {
-            lineCount = 0;
-            ret[noteCount++] = extractNote(lineBuff);
-            memset(lineBuff, 0, 105);
-            continue;
-        } else if(c == EOF) break;
-        lineBuff[lineCount++] = c;
+
+    FILE* f = fopen(DB, "r");
+
+    while(fgets(lineBuff, len, f)) {
+        lenBuff = strlen(lineBuff);
+        if(lineBuff[lenBuff-1] == 10) lineBuff[lenBuff-1] = 0;
+        ret[notesIndex++] = extractNote(lineBuff);
+        memset(lineBuff, 0, len);
     }
+
+    fclose(f);
     free(content);
     free(lineBuff);
     return ret;
