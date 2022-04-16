@@ -31,26 +31,29 @@ note extractNote(char* line) {
 
 note* instances() {
     uint16_t ln = lines();
+
+    //returns null if there are no instances stored
     if(!ln) return NULL;
-    char* content = readDB();
+
+    /*
+        store len in var in order not to have
+        to do the addition every time
+    */
     size_t len = MAX_LENGTH+3;
-    size_t lenBuff;
-    char* lineBuff = (char*) malloc(len);
+    char* buffer = (char*) malloc(len);
     uint16_t notesIndex = 0;
-    note* ret = (note*)malloc(ln *sizeof(note));
+    note* ret = (note*)malloc(ln * sizeof(note));
 
     FILE* f = fopen(DB, "r");
 
-    while(fgets(lineBuff, len, f)) {
-        lenBuff = strlen(lineBuff);
-        if(lineBuff[lenBuff-1] == 10) lineBuff[lenBuff-1] = 0;
-        ret[notesIndex++] = extractNote(lineBuff);
-        memset(lineBuff, 0, len);
+    while(fgets(buffer, len, f)) {
+        buffer[strlen(buffer)-1] = 0;
+        ret[notesIndex++] = extractNote(buffer);
+        memset(buffer, 0, len);
     }
 
     fclose(f);
-    free(content);
-    free(lineBuff);
+    free(buffer);
     return ret;
 }
 
@@ -72,10 +75,11 @@ char addNote(char* content) {
         }
     }
     free(all);
+
     char instance[MAX_LENGTH+3];
-    sprintf(instance, "%s%c0\n", content, DEL);
-    writeDB(instance, "a");
-    addLines(1);
+    sprintf(instance, "%s%c0\n", content, DEL); //setting up instance
+    writeDB(instance, "a"); //writing it to DB
+    addLines(1); //increment lines
     return 1;
 }
 
