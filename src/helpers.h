@@ -43,20 +43,25 @@ void argtolower(char* arg) {
 
 void help() {
     printf("usage: clnotes [command] [args]\n\n");
-    printf("Status args: '-v', '-x'\n");
-    printf("All args: '-a', ''(-> on read)\n");
-    printf("Nums args: Number\\s corresponding to note\\s (you can check them with 'clnotes -r')\n\n");
+
+
+    printf("Args:\n");
+    printf("\t-x/-v: executes command on unchecked/checked notes\n\t\tUsed in: -r, -d\n");
+    printf("\t-a: executes command on every note\n\t\tUsed in: -r, -d");
+    printf("\n\tOn -d and -u commands, numbers can be used in order to execute the command on the coresponding notes\n\n");
+
+
     printf("Commands: (no need to worry about case sensitivity)\n");
     printf("\t-h: help\n");
     printf("\t\tArg: None\n");
     printf("\t-c: create instance\n");
-    printf("\t\tArg: instance to store (string)\n");
+    printf("\t\tArg: string to store as note\n");
     printf("\t-r: read instances\n");
-    printf("\t\tArg: status or all\n");
+    printf("\t\tArg: -x, -v, -a\n");
     printf("\t-u: update instances' status\n");
-    printf("\t\tArg\\s: nums to update\n");
+    printf("\t\tArg: numbers\n");
     printf("\t-d: delete instances\n");
-    printf("\t\tArg\\s: status, all or nums\n");
+    printf("\t\tArg: -x, -v, -a, numbers\n");
 }
 
 #endif
