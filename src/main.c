@@ -1,18 +1,13 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
-    for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both capital and lower case
+    for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both uppper and lower case
         argtolower(argv[x]);
         if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
     }
 
     if(!strcmp(argv[1], "-c")) {
         if(argc != 3) {
-        /*
-            valid usage: clnotes -c "my note/todo"
-            Might modify to have the ability to give note without having to put ""
-                Like: clnote -c my note/todo
-        */
             fprintf(stderr, "Must receive 3 arguments\nReceived %d\n", argc);
             return 1;
         }

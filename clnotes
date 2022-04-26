@@ -1,7 +1,10 @@
 #!/bin/bash
+
 cd $(dirname $(readlink -f $0))/src/
+
+#if no args are given then we set the args so that the help command is executed
 if !(( $# )); then
-    ./clnotesExec -h
-else
-    ./clnotesExec "$@"
+    set -- "-h"
 fi
+
+./clnotesExec "$@"
