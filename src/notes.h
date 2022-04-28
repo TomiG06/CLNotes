@@ -1,6 +1,11 @@
 #ifndef NOTES_H
 #define NOTES_H
 
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "csv.h"
 
 typedef struct note {

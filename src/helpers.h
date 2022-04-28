@@ -1,8 +1,11 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
-#include "notes.h"
 #include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "notes.h"
 
 int* bsort(char* argv[], int argc) {
     //Bubble sort algorithm
