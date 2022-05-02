@@ -6,8 +6,13 @@
 #include <string.h>
 #include <stdint.h>
 
-#define DB "../db/notes.csv"
-#define LINES "../db/lines.txt"
+#ifdef DEBUG
+    #define DB "testDB.csv"
+    #define LINES "testLines.txt"
+#else
+    #define LINES "../db/lines.txt"
+    #define DB "../db/notes.csv"
+#endif
 
 #define MAX_LENGTH 100
 #define DEL 0x1F
