@@ -30,7 +30,7 @@ int* bsort(char* argv[], int argc) {
 }
 
 void displayNotes(char status) {
-    note* arr = instances();
+    note* arr = read_instances();
     for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].completed) printf("%c %lu. %s\n", arr[x].completed ? 'v': 'x', x+1, arr[x].content);
     free(arr);
 }

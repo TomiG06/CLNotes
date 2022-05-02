@@ -7,6 +7,10 @@
 #include "helpers.h"
 
 int main(int argc, char* argv[]) {
+    #ifdef DEBUG
+        printf("\nDEBUGGING\n\n");
+    #endif
+
     for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both uppper and lower case
         argtolower(argv[x]);
         if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
