@@ -41,12 +41,15 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "No input note\n");
             return 1;
         }
+        note* notes = read_instances();
         for(uint8_t x = 2; x<argc; ++x) {
-            if(!argisdigit(argv[x]) || !updateNote(atoi(argv[x]))) {
+            if(!argisdigit(argv[x]) || !updateNote(atoi(argv[x]), notes)) {
+                write_instances(notes);
                 fprintf(stderr, "Illegal number '%s'\n", argv[x]);
                 return 1;
             }
         }
+        write_instances(notes);
     } else if(!strcmp(argv[1], "-d")) {
         if(argc == 2) {
             fprintf(stderr, "No input note\n");

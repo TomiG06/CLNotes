@@ -35,6 +35,10 @@ note extractNote(char* line) {
 }
 
 note* read_instances() {
+    /*
+        reads the file where we store our notes
+        and returns an array of note type
+    */
     uint16_t ln = lines();
 
     //returns null if there are no instances stored
@@ -63,6 +67,10 @@ note* read_instances() {
 }
 
 void write_instances(note* instances) {
+    /*
+        takes an array of note type
+        and writes them on DB
+    */
     uint8_t ln = lines();
     FILE* f = fopen(DB, "w");
     for(size_t x = 0; x < ln; x++) {
@@ -97,9 +105,9 @@ char addNote(char* content) {
     return 1;
 }
 
-uint8_t updateNote(uint16_t line) {
+uint8_t updateNote(uint16_t line, note* instances) {
     if(line < 1 || line > lines()) return 0;
-    update(line);
+    instances[line-1].completed = !instances[line-1].completed;
     return 1;
 }
 
