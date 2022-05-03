@@ -111,32 +111,30 @@ uint8_t updateNote(uint16_t line, note* instances) {
     return 1;
 }
 
-char deleteNote(uint16_t line) {
+char deleteNote(uint16_t line, note* notes) {
     uint8_t ln = lines();
-    if(line < 0 || line > ln-1) return 0;
-    note* all = read_instances();
-    for(line; line<ln; line++) all[line] = all[line+1]; //move every line, after the one to be deleted, -1 lines
-    ln -= 1; //a note is deleted so ln must decrement
-    FILE *f = fopen(DB, "w");
-    for(uint8_t x = 0; x<ln; ++x) fprintf(f, "%s%c%d\n", all[x].content, DEL, all[x].completed);
-    fclose(f);
-    free(all);
+
+    if(line < 0 || line > ln-1) return 0; //Check if line is valid
+
+    for(line; line<ln; line++) {
+        notes[line] = notes[line+1]; //move every line, after the one to be deleted, -1 lines
+    }
+
     addLines(-1);
     return 1;
 }
 
-char deleteByStatus(char* status) {
+char deleteByStatus(char* status, note* notes) {
     if(strcmp(status, "-x") && strcmp(status, "-v")) return 0;
     //strcmp returns 0 if args are equal, -v means we want 1, so if it is -v then !0 -> 1. Else, !(int /= 0) -> 0
-    char statuss = !strcmp(status, "-v"); 
-    note* all = read_instances();
-    size_t tracker = 0;
-    size_t ln = lines();
-    for(size_t x = 0; x<ln; ++x) {
-        if(all[x].completed == statuss) deleteNote(tracker);
-        else tracker++;
+    char numeric_status = !strcmp(status, "-v");
+    
+    for(int16_t x = lines() -1; x > -1; x--) {
+        printf("%d\n", x);
+        if(notes[x].completed == numeric_status) {
+            deleteNote(x, notes);
+        }
     }
-    free(all);
     return 1;
 }
 

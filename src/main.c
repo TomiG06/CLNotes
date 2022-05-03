@@ -62,11 +62,16 @@ int main(int argc, char* argv[]) {
             addLines(-lines());
             return 0;
         }
+
+        note* notes = read_instances();
         if(!argisdigit(argv[2])) {
-            if(!deleteByStatus(argv[2])) {
+            if(!deleteByStatus(argv[2], notes)) {
                 fprintf(stderr, "Uknown status '%s'\n", argv[2]);
                 return 1;
             }
+
+            write_instances(notes);
+            free(notes);
             return 0;
         }
         
@@ -81,15 +86,19 @@ int main(int argc, char* argv[]) {
         int len = argc-2;
 
         for(size_t x = 0; x<len; ++x) {
-            if(!deleteNote(sorted[x]-1)) {
+            if(!deleteNote(sorted[x]-1, notes)) {
+                write_instances(notes);
+                free(notes);
                 fprintf(stderr, "Illegal number '%d'\n", sorted[x]);
                 return 1;
             }
         }
+        write_instances(notes);
+        free(notes);
     } else if(!strcmp(argv[1], "-h")) {
         help();
     } else {
-        fprintf(stderr, "Uknown command '%s'\n", argv[1]);
+        fprintf(stderr, "Uknown command '%s'\nType '%s -h' to check the commands", argv[1], argv[0]);
         return 1;
     }
     return 0;
