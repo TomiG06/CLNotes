@@ -130,10 +130,7 @@ char deleteByStatus(char* status, note* notes) {
     char numeric_status = !strcmp(status, "-v");
     
     for(int16_t x = lines() -1; x > -1; x--) {
-        printf("%d\n", x);
-        if(notes[x].completed == numeric_status) {
-            deleteNote(x, notes);
-        }
+        if(notes[x].completed == numeric_status) deleteNote(x, notes);
     }
     return 1;
 }

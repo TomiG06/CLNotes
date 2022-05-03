@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     } else if(!strcmp(argv[1], "-h")) {
         help();
     } else {
-        fprintf(stderr, "Uknown command '%s'\nType '%s -h' to check the commands", argv[1], argv[0]);
+        fprintf(stderr, "Uknown command '%s'\nTry 'clnotes -h' for more info\n", argv[1]);
         return 1;
     }
     return 0;
