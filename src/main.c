@@ -63,15 +63,11 @@ int main(int argc, char* argv[]) {
             return 0;
         }
 
-        note* notes = read_instances();
         if(!argisdigit(argv[2])) {
-            if(!deleteByStatus(argv[2], notes)) {
+            if(!deleteByStatus(argv[2])) {
                 fprintf(stderr, "Uknown status '%s'\n", argv[2]);
                 return 1;
             }
-
-            write_instances(notes);
-            free(notes);
             return 0;
         }
         
@@ -82,6 +78,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        note* notes = read_instances();
         int* sorted = bsort(argv, argc); //Must be sorted in order to be certain that we are deleting the right stuff
         int len = argc-2;
 

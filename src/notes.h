@@ -124,14 +124,18 @@ char deleteNote(uint16_t line, note* notes) {
     return 1;
 }
 
-char deleteByStatus(char* status, note* notes) {
+char deleteByStatus(char* status) {
     if(strcmp(status, "-x") && strcmp(status, "-v")) return 0;
     //strcmp returns 0 if args are equal, -v means we want 1, so if it is -v then !0 -> 1. Else, !(int /= 0) -> 0
     char numeric_status = !strcmp(status, "-v");
+    note* notes = read_instances();
     
     for(int16_t x = lines() -1; x > -1; x--) {
         if(notes[x].completed == numeric_status) deleteNote(x, notes);
     }
+
+    write_instances(notes);
+    free(notes);
     return 1;
 }
 
