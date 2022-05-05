@@ -7,11 +7,13 @@
 #include <stdint.h>
 
 #ifdef DEBUG
-    #define DB "testDB.csv"
-    #define LINES "testLines.txt"
+#define DB "testDB.csv"
+#define LINES "testLines.txt"
+
 #else
-    #define LINES "../db/lines.txt"
-    #define DB "../db/notes.csv"
+#define LINES "../db/lines.txt"
+#define DB "../db/notes.csv"
+
 #endif
 
 #define MAX_LENGTH 100
@@ -36,22 +38,6 @@ void addLines(int8_t num) {
     FILE *f = fopen(LINES, "w");
     fprintf(f, "%hu", ln);
     fclose(f);
-}
-
-char* readDB() {
-    FILE *f = fopen(DB, "r");
-    char c;
-    uint16_t x = 0;
-    char* content = (char*) malloc((MAX_LENGTH+3)*lines()); 
-    /*
-        maximum length -> 100 (MAX_LENGTH)
-        delimiter      -> 001
-        status         -> 001
-        new line       -> 001
-                          103 bytes to be allocated
-    */
-    while((c = getc(f)) != EOF) content[x++] = c;
-    return content;
 }
 
 void writeDB(char* content, char* status) {
