@@ -69,7 +69,7 @@ note* read_instances() {
 void write_instances(note* instances) {
     /*
         takes an array of note type
-        and writes them on DB
+        and writes the content on DB
     */
     uint8_t ln = lines();
     FILE* f = fopen(DB, "w");
