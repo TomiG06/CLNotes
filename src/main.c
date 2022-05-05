@@ -17,16 +17,14 @@ int main(int argc, char* argv[]) {
     }
 
     if(!strcmp(argv[1], "-c")) {
-        if(argc != 3) {
-            fprintf(stderr, "Must receive 3 arguments\nReceived %d\n", argc);
-            return 1;
-        }
-        char as = addNote(argv[2]);
-        if(as != 1) {
-            if(!as) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: %d\n", strlen(argv[2]), MAX_LENGTH);
-            else if(as == 2) fprintf(stderr, "Instance already exists\n");
-            else fprintf(stderr, "You have reached the maximum amount of notes allowed\n"); //Might delete the max notes but who will ever write 100 notes at once?
-            return 1;
+        char add_status;
+        for(int x = 2; x < argc; x++) {
+            if((add_status = addNote(argv[x])) != 1) {
+                if(!add_status) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: %d\n", strlen(argv[2]), MAX_LENGTH);
+                else if(add_status == 2) fprintf(stderr, "Instance already exists\n");
+                else fprintf(stderr, "You have reached the maximum amount of notes allowed\n"); //Might delete the max notes but who will ever write 100 notes at once?
+                return 1;
+            }
         }
     } else if(!strcmp(argv[1], "-r")) {
         if(argc == 2 || !strcmp(argv[2], "-a")) displayNotes(-1);
