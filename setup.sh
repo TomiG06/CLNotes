@@ -5,11 +5,20 @@ sudo apt install gcc
 mkdir db
 cd db
 touch notes.csv
-touch lines.txt
 echo 0 > lines.txt
 
-#Compiles executables
 cd ../src
+
+#Builds Database for Debugging if allowed
+read -p "Do you want to build a database for debugging?(y/any key) " ANS
+
+if [[ $ANS == y || $ANS == Y ]]; then
+    touch testDB.csv
+    echo 0 > testLines.txt
+    echo "On debugging compile with 'gcc ... -D DEBUG'"
+fi
+
+#Compiles executables
 gcc main.c -o clnotesExec
 
 #Systemwide Symlink
