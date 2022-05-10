@@ -26,8 +26,8 @@ note extractNote(char* line) {
                 )
             else the character is pushed in the content because it belongs there
         */
-            ret.content[x] = 0x0;
-            ret.completed = line[x+1]-48;
+            ret.content[x++] = 0x0;
+            ret.completed = line[x]-48;
             return ret;
         }
         ret.content[x] = line[x];
