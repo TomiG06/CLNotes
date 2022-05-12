@@ -39,10 +39,6 @@ note* read_instances() {
         reads the file where we store our notes
         and returns an array of note type
     */
-    uint16_t ln = lines();
-
-    //returns null if there are no instances stored
-    if(!ln) return NULL;
 
     /*
         store len in var in order not to have
@@ -51,7 +47,7 @@ note* read_instances() {
     size_t len = MAX_LENGTH+3;
     char* buffer = (char*) malloc(len);
     uint16_t notesIndex = 0;
-    note* ret = (note*)malloc(ln * sizeof(note));
+    note* ret = (note*)malloc(lines() * sizeof(note));
 
     FILE* f = fopen(DB, "r");
 
