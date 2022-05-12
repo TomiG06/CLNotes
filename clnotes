@@ -2,7 +2,7 @@
 
 cd $(dirname $(readlink -f $0))/src/
 
-#if no args are given then we set the args so that the help command is executed
+#if no command is given then we will execute the help command
 if !(( $# )); then
     set -- "-h"
 fi
