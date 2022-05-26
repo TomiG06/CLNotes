@@ -15,12 +15,13 @@ read -p "Do you want to build a database for debugging?(y/any key) " ANS
 if [[ $ANS == y || $ANS == Y ]]; then
     touch testDB.csv
     echo 0 > testLines.txt
-    echo "On debugging compile with 'gcc ... -D DEBUG'"
+    echo "On debugging compile with 'make -f makefile debug'"
 fi
 
 #Compiles executables
-gcc main.c -o clnotesExec
+make -f makefile
 
 #Systemwide Symlink
 cd ..
 sudo ln -sf $(pwd)/clnotes /usr/local/bin/clnotes
+
