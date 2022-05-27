@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt install gcc
+sudo apt install gcc make
 
 #Builds Database
 mkdir db
