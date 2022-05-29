@@ -2,9 +2,15 @@
 
 cd $(dirname $(readlink -f $0))/src/
 
-#if no command is given then we will execute the help command
-if !(( $# )); then
-    set -- "-h"
+#if no command is given then the help command will be executed
+if [[ $# == 0 || $1 == "-h" ]]; then
+    echo "usage: clnotes [-h]
+               [-c] <notes>
+               [-r] <status>
+               [-u] <numbers corresponding to notes>
+               [-d] < '' / status>"
+
+else
+    ./clnotesExec "$@"
 fi
 
-./clnotesExec "$@"

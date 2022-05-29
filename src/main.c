@@ -40,42 +40,11 @@ char argisdigit(char* value) {
     return 1;
 }
 
-void argtolower(char* arg) {
-    for(size_t x = 0; x<strlen(arg); x++) *(arg + x) = tolower(arg[x]);
-}
-
-void help() {
-    printf("usage: clnotes [command] [args]\n\n");
-
-
-    printf("Args:\n");
-    printf("\t-x/-v: executes command on unchecked/checked notes\n\t\tUsed in: -r, -d\n");
-    printf("\t-a: executes command on every note\n\t\tUsed in: -r, -d");
-    printf("\n\tOn -d and -u commands, numbers can be used in order to execute the command on the coresponding notes\n\n");
-
-
-    printf("Commands: (no need to worry about case sensitivity)\n");
-    printf("\t-h: help\n");
-    printf("\t\tArg: None\n");
-    printf("\t-c: create instance\n");
-    printf("\t\tArg: string to store as note\n");
-    printf("\t-r: read instances\n");
-    printf("\t\tArg: -x, -v, -a\n");
-    printf("\t-u: update instances' status\n");
-    printf("\t\tArg: numbers\n");
-    printf("\t-d: delete instances\n");
-    printf("\t\tArg: -x, -v, -a, numbers\n");
-}
-
 int main(int argc, char* argv[]) {
     #ifdef DEBUG
         printf("\nDEBUGGING\n\n");
     #endif
 
-    for(size_t x = 1; x<argc; ++x) { //Loop through every argument in order to not have to check for both uppper and lower case
-        argtolower(argv[x]);
-        if(!strcmp(argv[x], "-c")) break; //Next argument is message but we want it as is
-    }
 
     if(!strcmp(argv[1], "-c")) {
         char add_status;
@@ -151,8 +120,6 @@ int main(int argc, char* argv[]) {
         }
         write_instances(notes);
         free(notes);
-    } else if(!strcmp(argv[1], "-h")) {
-        help();
     } else {
         fprintf(stderr, "Uknown command '%s'\nTry 'clnotes -h' for more info\n", argv[1]);
         return 1;
