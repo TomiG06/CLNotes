@@ -31,6 +31,6 @@ void addLines(int8_t num) {
 void writeDB(char* content, char* status) {
     FILE *f = fopen(DB, status);
     //"a" for new | "w" for update/delete
-    fprintf(f, "%s", content);
+    fputs(content, f);
     fclose(f);
 }
