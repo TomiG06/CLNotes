@@ -2,29 +2,29 @@
 #include <stdint.h>
 #include "csv.h"
 
-uint8_t lines() { //provided that max number of notes is 100, unsigned byte var is good enough
+uint16_t records() {
     /*
-        decided to store the number of lines in a file
+        decided to store the number of records in a file
         so that we don't have to loop through the whole content
-        and check for every new line character
+        and count every REC_SEP
     */
-    uint8_t ln;
-    FILE* f = fopen(LINES, "r");
-    fscanf(f, "%hhd", &ln);
+    uint16_t recs;
+    FILE* f = fopen(RECORDS, "r");
+    fscanf(f, "%hu", &recs);
     fclose(f);
-    return ln;
+    return recs;
 }
 
-void addLines(int8_t num) {
+void add_records(int16_t num) {
     /*
-        we use it in order to modify lines when we add/delete a note/todo
+        we use it in order to modify the record coumt when we add/delete a note/todo
         
         Note: num argument must be signed because the function is also used
-        to decrement the number of lines when we delete instances
+        to decrement the number of records when we delete instances
     */
-    uint8_t ln = lines() + num;
-    FILE *f = fopen(LINES, "w");
-    fprintf(f, "%hu", ln);
+    uint16_t recs = records() + num;
+    FILE *f = fopen(RECORDS, "w");
+    fprintf(f, "%hu", recs);
     fclose(f);
 }
 
@@ -33,4 +33,17 @@ void writeDB(char* content, char* status) {
     //"a" for new | "w" for update/delete
     fputs(content, f);
     fclose(f);
+}
+
+char read_record(char* buffer, FILE* f) {
+    char c;
+    size_t idx = 0;
+
+    if((c = fgetc(f)) == EOF) return 0;
+
+    do {
+        buffer[idx++] = c;
+    } while((c = fgetc(f)) != REC_SEP);
+
+    return idx+1;
 }

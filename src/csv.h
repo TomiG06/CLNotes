@@ -4,18 +4,20 @@
 #include <stdint.h>
 
 #ifdef DEBUG
-    #define DB "testDB.csv"
-    #define LINES "testLines.txt"
+    #define DB      "testDB.csv"
+    #define RECORDS "testLines.txt"
 #else
-    #define LINES "../db/lines.txt"
-    #define DB "../db/notes.csv"
+    #define DB      "../db/notes.csv"
+    #define RECORDS "../db/lines.txt"
 #endif
 
-#define MAX_LENGTH 100
-#define DEL 0x1F
+#define MAX_LENGTH  1024
+#define DEL         0x1F
+#define REC_SEP     0x1E
 
-uint8_t lines();
-void addLines(int8_t num);
+uint16_t records();
+void add_records(int16_t num);
 void writeDB(char* content, char* status);
+char read_record(char* buffer, FILE* f);
 
 #endif

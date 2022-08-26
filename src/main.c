@@ -7,11 +7,10 @@
 #include "notes.h"
 #include "csv.h"
 
-int* bsort(char* argv[], int argc) {
+int* bsort(char* argv[], size_t len) {
     //Bubble sort algorithm
     //O(n^2)
-    int* sorted = (int*) malloc(sizeof(int) * (argc-2));
-    int len = argc-2;
+    int* sorted = (int*) malloc(sizeof(int) * (len));
     int temp;
 
     for(size_t i = 0; i < len; ++i) sorted[i] = atoi(argv[i+2]);
@@ -31,7 +30,11 @@ int* bsort(char* argv[], int argc) {
 
 void displayNotes(char status) {
     note* arr = read_instances();
-    for(size_t x = 0; x<lines(); x++) if(status == -1 || status == arr[x].completed) printf("%c %lu. %s\n", arr[x].completed ? 'v': 'x', x+1, arr[x].content);
+
+    for(size_t x = 0; x<records(); x++) 
+        if(status == -1 || status == arr[x].completed) 
+            printf("%c %lu. %s\n", arr[x].completed ? 'v': 'x', x+1, arr[x].content);
+
     free(arr);
 }
 
@@ -52,7 +55,6 @@ int main(int argc, char* argv[]) {
             if((add_status = addNote(argv[x])) != 1) {
                 if(!add_status) fprintf(stderr, "Note lengthier than allowed\nLength: %ld\nMaximum: %d\n", strlen(argv[2]), MAX_LENGTH);
                 else if(add_status == 2) fprintf(stderr, "Instance already exists\n");
-                else fprintf(stderr, "You have reached the maximum amount of notes allowed\n"); //Might delete the max notes but who will ever write 100 notes at once?
                 return 1;
             }
         }
@@ -70,7 +72,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         note* notes = read_instances();
-        for(uint8_t x = 2; x<argc; ++x) {
+        for(uint16_t x = 2; x<argc; ++x) {
             if(!argisdigit(argv[x]) || !updateNote(atoi(argv[x]), notes)) {
                 write_instances(notes);
                 free(notes);
@@ -87,7 +89,7 @@ int main(int argc, char* argv[]) {
         }
         if(!strcmp(argv[2], "-a")) {
             writeDB("", "w");
-            addLines(-lines());
+            add_records(-records());
             return 0;
         }
 
@@ -99,7 +101,7 @@ int main(int argc, char* argv[]) {
             return 0;
         }
         
-        for(size_t i = 2; i < argc; ++i) {
+        for(int i = 2; i < argc; ++i) {
             if(!argisdigit(argv[i])) {
                 fprintf(stderr, "Argument '%s' is not a number\n", argv[i]);
                 return 1;
@@ -107,8 +109,8 @@ int main(int argc, char* argv[]) {
         }
 
         note* notes = read_instances();
-        int* sorted = bsort(argv, argc); //Must be sorted in order to be certain that we are deleting the right stuff
-        int len = argc-2;
+        size_t len = argc-2;
+        int* sorted = bsort(argv, len); //Must be sorted in order to be certain that we are deleting the right stuff
 
         for(size_t x = 0; x<len; ++x) {
             if(!deleteNote(sorted[x]-1, notes)) {

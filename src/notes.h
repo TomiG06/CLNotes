@@ -9,12 +9,12 @@ typedef struct note {
     uint8_t completed; //For todos
 } note;
 
-note extractNote(char* line);
+note extractNote(char* record);
 note* read_instances();
 void write_instances(note* instances);
 char addNote(char* content);
-uint8_t updateNote(uint16_t line, note* instances);
-char deleteNote(uint16_t line, note* notes);
+uint8_t updateNote(int16_t record, note* instances);
+char deleteNote(int16_t record, note* notes);
 char deleteByStatus(char* status);
 
 #endif

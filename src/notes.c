@@ -5,10 +5,13 @@
 #include "csv.h"
 #include "notes.h"
 
-note extractNote(char* line) {
+note extractNote(char* record) {
     note ret;
-    for(uint8_t x = 0; x < strlen(line); x++) {
-        if(line[x] == DEL) {
+
+    puts(record);
+
+    for(uint16_t x = 0; x < strlen(record); x++) {
+        if(record[x] == DEL) {
         /*
             If delimeter is met:
                 Content gets NULL terminated
@@ -19,11 +22,13 @@ note extractNote(char* line) {
             else the character is pushed in the content because it belongs there
         */
             ret.content[x++] = 0x0;
-            ret.completed = line[x]-48;
-            return ret;
+            ret.completed = record[x]-48;
+            break;
         }
-        ret.content[x] = line[x];
+        ret.content[x] = record[x];
     }
+
+    return ret;
 }
 
 note* read_instances() {
@@ -37,20 +42,19 @@ note* read_instances() {
         to do the addition every time
     */
     size_t len = MAX_LENGTH+3;
-    char* buffer = (char*) malloc(len);
+    char buffer[MAX_LENGTH+3];
     uint16_t notesIndex = 0;
-    note* ret = (note*)malloc(lines() * sizeof(note));
+    note* ret = (note*)malloc(records() * sizeof(note));
 
     FILE* f = fopen(DB, "r");
 
-    while(fgets(buffer, len, f)) {
-        buffer[strlen(buffer)-1] = 0;
+    while(read_record(buffer, f)) {
         ret[notesIndex++] = extractNote(buffer);
         memset(buffer, 0, len);
     }
 
     fclose(f);
-    free(buffer);
+
     return ret;
 }
 
@@ -59,10 +63,10 @@ void write_instances(note* instances) {
         takes an array of note type
         and writes the content on DB
     */
-    uint8_t ln = lines();
+    uint8_t rec = records();
     FILE* f = fopen(DB, "w");
-    for(size_t x = 0; x < ln; x++) {
-        fprintf(f, "%s%c%d\n", instances[x].content, DEL, instances[x].completed);
+    for(size_t x = 0; x < rec; x++) {
+        fprintf(f, "%s%c%d%c", instances[x].content, DEL, instances[x].completed, REC_SEP);
     }
     fclose(f);
 }
@@ -75,10 +79,8 @@ char addNote(char* content) {
     -1 Can't add more        ''
 */
     if(strlen(content) > MAX_LENGTH) return 0; //check if length is more than allowed
-    uint8_t ln = lines();
-    if(ln == 100) return -1; //check if lines are 100, which means that limit is reached
     note* all = read_instances();
-    for(uint8_t x = 0; x<ln; ++x) {
+    for(uint16_t x = 0; x < records(); ++x) {
         if(!strcmp(all[x].content, content)) { //check if instance already exists
             free(all);
             return 2;
@@ -87,28 +89,28 @@ char addNote(char* content) {
     free(all);
 
     char instance[MAX_LENGTH+3];
-    sprintf(instance, "%s%c0\n", content, DEL); //setting up instance
+    sprintf(instance, "%s%c0%c", content, DEL, REC_SEP); //setting up instance
     writeDB(instance, "a"); //writing it to DB
-    addLines(1); //increment lines
+    add_records(1); //increment record count
     return 1;
 }
 
-uint8_t updateNote(uint16_t line, note* instances) {
-    if(line < 1 || line > lines()) return 0;
-    instances[line-1].completed = !instances[line-1].completed;
+uint8_t updateNote(int16_t record, note* instances) {
+    if(record < 1 || record > records()) return 0;
+    instances[record-1].completed = !instances[record-1].completed;
     return 1;
 }
 
-char deleteNote(uint16_t line, note* notes) {
-    uint8_t ln = lines();
+char deleteNote(int16_t record, note* notes) {
+    uint8_t recs = records();
 
-    if(line < 0 || line > ln-1) return 0; //Check if line is valid
+    if(record < 0 || record > recs-1) return 0; //Check if line is valid
 
-    for(line; line<ln; line++) {
-        notes[line] = notes[line+1]; //move every line, after the one to be deleted, -1 lines
+    while(record++ < recs) {
+        notes[record-1] = notes[record]; //move every line, after the one to be deleted, -1 lines
     }
 
-    addLines(-1);
+    add_records(-1);
     return 1;
 }
 
@@ -118,7 +120,7 @@ char deleteByStatus(char* status) {
     char numeric_status = !strcmp(status, "-v");
     note* notes = read_instances();
     
-    for(int16_t x = lines() -1; x > -1; x--) {
+    for(int16_t x = records() -1; x > -1; x--) {
         if(notes[x].completed == numeric_status) deleteNote(x, notes);
     }
 
