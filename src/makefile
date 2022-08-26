@@ -1,5 +1,10 @@
+CC = gcc
+CFLAGS = -Wall -o clnotesExec
+
+SOURCE_FILES = main.c notes.c csv.c
+
 all: main.c notes.c csv.c
-	gcc main.c notes.c csv.c -o clnotesExec
+	$(CC) $(CFLAGS) $(SOURCE_FILES)
 
 debug:
-	gcc main.c notes.c csv.c -o clnotesExec -DDEBUG
+	$(CC) $(CFLAGS) $(SOURCE_FILES) -DDEBUG
