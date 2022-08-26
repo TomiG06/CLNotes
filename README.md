@@ -5,14 +5,14 @@ clnotes is a command line tool that helps you keep track of your notes/todos, li
 
 ## Installation
 ```
-cd
-git clone https://github.com/TomiG06/clnotes.git
-cd clnotes
-./setup.sh
+$ cd
+$ git clone https://github.com/TomiG06/clnotes.git
+$ cd clnotes
+$ ./setup.sh
 ```
 
 ## Commands
-* `-c "new instance"`
+* `-c "new note"`
 * `-r [status, all]`
 * `-u [number/s to check/uncheck]`
 * `-d [number/s to delete, all, status]`
@@ -20,4 +20,4 @@ cd clnotes
 
 ## Notes
 
-* Inside the program, words 'note', 'instance' and 'todo' refer to the same thing
+* Inside the program, words 'note', 'instance', 'todo' and 'record' refer to the same thing
