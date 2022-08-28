@@ -16,11 +16,11 @@ uint16_t records() {
 }
 
 void add_records(int16_t num) {
+    /* we use it in order to modify the record coumt when we add/delete a note/todo */
+
     /*
-        we use it in order to modify the record coumt when we add/delete a note/todo
-        
-        Note: num argument must be signed because the function is also used
-        to decrement the number of records when we delete instances
+        the new number of records must already be stored in a variable
+        before we open the record count file
     */
     uint16_t recs = records() + num;
     FILE *f = fopen(RECORDS, "w");
@@ -30,7 +30,6 @@ void add_records(int16_t num) {
 
 void writeDB(char* content, char* status) {
     FILE *f = fopen(DB, status);
-    //"a" for new | "w" for update/delete
     fputs(content, f);
     fclose(f);
 }
@@ -47,3 +46,4 @@ char read_record(char* buffer, FILE* f) {
 
     return idx+1;
 }
+

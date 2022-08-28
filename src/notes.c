@@ -8,8 +8,6 @@
 note extractNote(char* record) {
     note ret;
 
-    puts(record);
-
     for(uint16_t x = 0; x < strlen(record); x++) {
         if(record[x] == DEL) {
         /*
@@ -21,7 +19,10 @@ note extractNote(char* record) {
                 )
             else the character is pushed in the content because it belongs there
         */
+            //Null terminate just to be sure
             ret.content[x++] = 0x0;
+
+            //ASCII to numerical
             ret.completed = record[x]-48;
             break;
         }
@@ -38,12 +39,13 @@ note* read_instances() {
     */
 
     /*
-        store len in var in order not to have
-        to do the addition every time
+        store len in var so that we will not
+        have to do the addition every time
     */
-    size_t len = MAX_LENGTH+3;
-    char buffer[MAX_LENGTH+3];
-    uint16_t notesIndex = 0;
+    const size_t len = MAX_LENGTH+3;
+
+    char buffer[len];
+    size_t notesIndex = 0;
     note* ret = (note*)malloc(records() * sizeof(note));
 
     FILE* f = fopen(DB, "r");
@@ -63,20 +65,20 @@ void write_instances(note* instances) {
         takes an array of note type
         and writes the content on DB
     */
-    uint8_t rec = records();
     FILE* f = fopen(DB, "w");
-    for(size_t x = 0; x < rec; x++) {
+
+    for(size_t x = 0; x < records(); x++) {
         fprintf(f, "%s%c%d%c", instances[x].content, DEL, instances[x].completed, REC_SEP);
     }
+
     fclose(f);
 }
 
 char addNote(char* content) {
 /*
-    +2 Instance in db      (fail)
+    +2 Instance already exists      (fail)
     +1 Successfully added
-     0 Longer than allowed (fail)
-    -1 Can't add more        ''
+     0 Longer than allowed          (fail)
 */
     if(strlen(content) > MAX_LENGTH) return 0; //check if length is more than allowed
     note* all = read_instances();
@@ -128,3 +130,4 @@ char deleteByStatus(char* status) {
     free(notes);
     return 1;
 }
+
